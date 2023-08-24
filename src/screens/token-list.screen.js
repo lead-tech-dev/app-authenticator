@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Divider from "../components/divider/divider"
 import { SafeArea } from "../components/utility/safe-area.component";
 import Footer from "../components/footer/footer";
@@ -14,6 +14,41 @@ export const TokenListScreen = ({ navigation }) => {
     const {
         setMoptToken, moptTokens, generateNextOtp, resetMoptToken, setIsLongPressed, updateWaitingForPin, updateWaitingForOtp, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
 
+    const [height, setHeight] = useState(0);
+    const [counter, setCounter] = useState(0);
+    const [nextOtp, setNextOtp] = useState(false);
+    const [reset, setReset] = useState(false);
+    const [timer, setTimer] = useState(false);
+    const defaultPeriod = 10;
+    const resetOtpTime = 3;
+
+    useEffect(() => {
+
+          if (timer && counter < resetOtpTime) {
+              setReset(false)
+              setNextOtp(false);
+              progress(0, defaultPeriod);
+          }else {
+              setReset(true)
+              setCounter(0);
+              setNextOtp(false);
+          }
+
+    }, [counter, timer])
+    const progress = (timeLeft, timeTotal) => {
+
+        if (timeLeft <= timeTotal) {
+            setTimeout(() => {
+                setHeight(timeLeft * 100 / timeTotal)
+                progress(timeLeft + defaultPeriod / 10, timeTotal)
+            }, 1000)
+        }
+        if(timeLeft === timeTotal) {
+            setNextOtp(true);
+            setCounter((counter) => counter + 1)
+        }
+
+    }
     useEffect(() => {
         let localMoptTokens = [];
             table.map(item => {
@@ -39,7 +74,15 @@ export const TokenListScreen = ({ navigation }) => {
         }
     }, [error])
 
-    console.log(moptTokens)
+    const handlePinCode = (item, text) => {
+        generateOtp(item, text);
+        setTimer(true);
+    }
+
+    const handleReset = (item) => {
+        resetMoptToken(item);
+        setTimer(false)
+    }
   return (
       <SafeArea>
          <Header/>
@@ -60,11 +103,14 @@ export const TokenListScreen = ({ navigation }) => {
                               item={item}
                               onPress={() => updateWaitingForPin(item)}
                               onLongPress={() => setIsLongPressed(item)}
-                              handlePinCode={(value) => generateOtp(item, value)}
+                              handlePinCode={(value) => handlePinCode(item, value)}
                               handleCancel={(item) => updateWaitingForOtp(item)}
                               handleDelete={(item) => removeFromMoptTokens(item)}
-                              handleReset={(item) => resetMoptToken(item)}
+                              handleReset={(item) => handleReset(item)}
                               handleGenerateNextOtp={(item) => generateNextOtp(item)}
+                              nextOtp={nextOtp}
+                              reset={reset}
+                              height={height}
                           />
                       );
                   })}

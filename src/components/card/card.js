@@ -6,43 +6,27 @@ import Button from "../button";
 import React ,{useEffect, useState}from "react";
 
 
-const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete, handleReset, handleGenerateNextOtp}) => {
+const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete,height, nextOtp, reset, handleReset, handleGenerateNextOtp}) => {
     const [value, setValue] = useState("");
-    const [height, setHeight] = useState(0);
-    const [counter, setCounter] = useState(0);
 
     useEffect(() => {
-
-        if (item.waitingForOtp && counter < item.resetOtpTime) {
-            progress(0, item.defaultPeriod);
-        }else {
-            handleReset(item)
-            setValue("");
-            setCounter(0);
-        }
-
-    }, [item.waitingForOtp, counter])
-    const progress = (timeLeft, timeTotal) => {
-
-        if (timeLeft <= timeTotal) {
-            setTimeout(() => {
-                setHeight(timeLeft * 100 / timeTotal)
-                progress(timeLeft + item.defaultPeriod / 10, timeTotal)
-            }, 1000)
-        }
-        if(timeLeft === timeTotal) {
-            setValue("");
+        console.log(nextOtp)
+        if (nextOtp) {
             handleGenerateNextOtp(item)
-           setCounter((counter) => counter + 1)
         }
 
-    }
+        if (reset) {
+            handleReset(item);
+        }
+
+    }, [nextOtp, reset])
     const onChangeText = (text) => {
 
         setValue(text);
 
         if(text.length === item.defaultDigits) {
             handlePinCode(text);
+            setValue("")
         }
     }
 
