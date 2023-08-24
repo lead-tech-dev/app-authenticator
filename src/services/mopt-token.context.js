@@ -7,13 +7,16 @@ export const MoptTokenContextProvider = ({ children }) => {
     const [error, setError] = useState("");
 
     const add = (moptToken) => {
+
        let existMoptToken = moptTokens.find(item => item.secret === moptToken.secret);
        if (existMoptToken){
            setError("MoptToken already exists!")
        }else {
            setMoptToken([...moptTokens, moptToken]);
        }
+
     };
+
 
     const updateWaitingForPin = (moptToken) => {
         let localMoptTokens = [...moptTokens];
@@ -96,6 +99,7 @@ export const MoptTokenContextProvider = ({ children }) => {
     return (
         <MoptTokenContext.Provider
             value={{
+                setMoptToken,
                 moptTokens,
                 addToMoptTokens: add,
                 removeFromMoptTokens: remove,

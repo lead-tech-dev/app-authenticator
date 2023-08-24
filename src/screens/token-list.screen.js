@@ -6,11 +6,28 @@ import Header from "../components/header/header";
 import Card from "../components/card/card";
 import {MoptTokenContext} from "../services/mopt-token.context";
 import {Alert, ScrollView} from "react-native";
+import {table} from "../data/mopt-token-data";
+import urlParse from "url-parse";
+import {MoptToken} from "../services/moptToken";
 
 export const TokenListScreen = ({ navigation }) => {
     const {
-        moptTokens, generateNextOtp, resetMoptToken, setIsLongPressed, updateWaitingForPin, updateWaitingForOtp, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
+        setMoptToken, moptTokens, generateNextOtp, resetMoptToken, setIsLongPressed, updateWaitingForPin, updateWaitingForOtp, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
 
+    useEffect(() => {
+        let localMoptTokens = [];
+            table.map(item => {
+                const parsedUri = urlParse(item);
+                if(parsedUri.host !== "motp") {
+                    setError("Incorrect token type!")
+                }else {
+                    localMoptTokens.push(new MoptToken(parsedUri))
+                }
+            })
+
+        setMoptToken([...localMoptTokens])
+
+    }, [])
 
     useEffect(() => {
         if (error){
@@ -22,6 +39,7 @@ export const TokenListScreen = ({ navigation }) => {
         }
     }, [error])
 
+    console.log(moptTokens)
   return (
       <SafeArea>
          <Header/>
