@@ -126,23 +126,18 @@ export const ScannerScreen = ({ navigation }) => {
                     <CameraInner>
                         {CameraFrame()}
 
-                        <Label1>
-                            <Title titleStyle={{ fontSize: 18, lineHeight: 36, color: "rgba(255, 255, 255, 1)" }}>Scan a QR code ...</Title>
-                        </Label1>
-
-                        <Text
+                        <View
                             style={{
                                 position: "absolute",
-                                top: height * 0.3 + 220,
+                                top: "15%",
                                 left: 0,
                                 right: 0,
-                                alignItems: "center"
+                                alignItems: "center",
                             }}
                         >
-                            <Title titleStyle={{ fontSize: 16, lineHeight: 36,  color: "rgba(255, 255, 255, 1)" }}>
-                                Align the code to be in the middle of the box
-                            </Title>
-                        </Text>
+                            <Text style={{ fontSize: 18, lineHeight: 36, color: "rgba(255, 255, 255, 1)" }}>Scan a QR code ...</Text>
+                        </View>
+
                     </CameraInner>
 
                 <Button
