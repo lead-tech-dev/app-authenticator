@@ -17,20 +17,22 @@ export const TokenListScreen = ({ navigation }) => {
     const [height, setHeight] = useState(0);
     const [timer, setTimer] = useState(false);
     const [timeOver, setTimeOver] = useState(false);
-    const [counter, setCounter] = useState(1);
+    const [counter, setCounter] = useState(0);
     const [endTimer, setEndTimer] = useState(0);
     const defaultPeriod = 10;
 
     useEffect(() => {
-
-        if (timer && counter > 0){
-            progress(0, defaultPeriod);
+        let setTimeoutId
+        if (timer && counter !== 0){
+           setTimeoutId =  progress(0, defaultPeriod);
         }
 
+        return () => clearTimeout(setTimeoutId)
     }, [counter, timer])
     const progress = (timeLeft, timeTotal) => {
+        let setTimeoutId;
         if (timeLeft <= timeTotal) {
-            setTimeout(() => {
+            setTimeoutId = setTimeout(() => {
                 setHeight(timeLeft * 100 / timeTotal)
                 progress(timeLeft + defaultPeriod / 10, timeTotal)
             }, 1000)
@@ -39,6 +41,7 @@ export const TokenListScreen = ({ navigation }) => {
             setCounter((counter) => counter + 1);
             setTimeOver(true)
         }
+        return setTimeoutId
     }
 
     useEffect(() => {
@@ -70,6 +73,7 @@ export const TokenListScreen = ({ navigation }) => {
         generateOtp(item, text);
         setTimer(true)
         setEndTimer((endTimer) => endTimer + 1)
+        setCounter(1 );
     }
 
     const handleReset = (item) => {
@@ -77,17 +81,17 @@ export const TokenListScreen = ({ navigation }) => {
 
         if (endTimer === 1) {
             setCounter(0)
+            setEndTimer(0)
         }else  {
             setEndTimer((endTimer) => endTimer - 1)
         }
-
-
     }
 
     const handleGenerateNextOtp = (item) => {
         generateOtp(item)
         setTimeOver(false)
     }
+
   return (
       <SafeArea>
          <Header/>
