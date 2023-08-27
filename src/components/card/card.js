@@ -6,7 +6,7 @@ import Button from "../button";
 import React ,{useEffect, useState}from "react";
 
 
-const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete,height, timeOver, handleReset, handleGenerateNextOtp}) => {
+const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete,height, timeOver, handleReset, handleGenerateNextOtp, length}) => {
     const [value, setValue] = useState("");
 
     useEffect(() => {
@@ -113,15 +113,17 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
                 </Action>
             )}
 
-            <Divider dividerStyle={{
-                textAlign: "center",
-                height: 4,
-                width: 280,
-                marginTop: 20,
-                marginLeft: 30,
-                borderRadius: 20,
-                backgroundColor: "grey",
-            }}/>
+            {length > 1 && (
+                <Divider dividerStyle={{
+                    textAlign: "center",
+                    height: 4,
+                    width: 280,
+                    marginTop: 20,
+                    marginLeft: 30,
+                    borderRadius: 20,
+                    backgroundColor: "grey",
+                }}/>
+            )}
         </CardContainer>
     )
 }
