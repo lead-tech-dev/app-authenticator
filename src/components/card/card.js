@@ -10,14 +10,18 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
     const [value, setValue] = useState("");
 
     useEffect(() => {
-
+        let timeoutId;
         if (item.pin !== "" && timeOver) {
-            handleGenerateNextOtp(item)
+            timeoutId = setTimeout(() => {
+               handleGenerateNextOtp(item)
+           }, 1500)
         }
 
         if(item.resetOtpTime === 4 ) {
             handleReset(item)
         }
+
+        return () => clearTimeout(timeoutId)
 
     }, [timeOver, item.resetOtpTime, item.pin])
 
@@ -31,6 +35,7 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
             setValue("")
         }
     }
+
     return (
         <CardContainer onPress={onPress} onLongPress={onLongPress}>
             <Header isPressed={item.isLongPressed}>
