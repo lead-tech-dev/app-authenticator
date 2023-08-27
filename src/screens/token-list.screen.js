@@ -18,6 +18,7 @@ export const TokenListScreen = ({ navigation }) => {
     const [timer, setTimer] = useState(false);
     const [timeOver, setTimeOver] = useState(false);
     const [counter, setCounter] = useState(1);
+    const [endTimer, setEndTimer] = useState(0);
     const defaultPeriod = 10;
 
     useEffect(() => {
@@ -68,10 +69,19 @@ export const TokenListScreen = ({ navigation }) => {
     const handlePinCode = (item, text) => {
         generateOtp(item, text);
         setTimer(true)
+        setEndTimer((endTimer) => endTimer + 1)
     }
 
     const handleReset = (item) => {
         resetMoptToken(item);
+
+        if (endTimer === 1) {
+            setCounter(0)
+        }else  {
+            setEndTimer((endTimer) => endTimer - 1)
+        }
+
+
     }
 
     const handleGenerateNextOtp = (item) => {
