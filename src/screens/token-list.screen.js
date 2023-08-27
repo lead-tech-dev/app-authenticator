@@ -36,6 +36,8 @@ export const TokenListScreen = ({ navigation }) => {
                 setHeight(timeLeft * 100 / timeTotal)
                 progress(timeLeft + defaultPeriod / 10, timeTotal)
             }, 1000)
+        }else{
+            setHeight(0)
         }
         if(timeLeft === timeTotal) {
             setCounter((counter) => counter + 1);
@@ -78,7 +80,6 @@ export const TokenListScreen = ({ navigation }) => {
 
     const handleReset = (item) => {
         resetMoptToken(item);
-
         if (endTimer === 1) {
             setCounter(0)
             setEndTimer(0)
