@@ -31,7 +31,6 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
             setValue("")
         }
     }
-
     return (
         <CardContainer onPress={onPress} onLongPress={onLongPress}>
             <Header isPressed={item.isLongPressed}>

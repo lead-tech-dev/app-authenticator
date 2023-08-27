@@ -17,7 +17,7 @@ export const TokenListScreen = ({ navigation }) => {
     const [height, setHeight] = useState(0);
     const [timer, setTimer] = useState(false);
     const [timeOver, setTimeOver] = useState(false);
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(1);
     const [endTimer, setEndTimer] = useState(0);
     const defaultPeriod = 10;
 
@@ -75,14 +75,14 @@ export const TokenListScreen = ({ navigation }) => {
         generateOtp(item, text);
         setTimer(true)
         setEndTimer((endTimer) => endTimer + 1)
-        setCounter(1 );
     }
 
     const handleReset = (item) => {
         resetMoptToken(item);
         if (endTimer === 1) {
-            setCounter(0)
+            setCounter(1)
             setEndTimer(0)
+            setTimer(false)
         }else  {
             setEndTimer((endTimer) => endTimer - 1)
         }
