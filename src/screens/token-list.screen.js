@@ -23,16 +23,16 @@ export const TokenListScreen = ({ navigation }) => {
 
     useEffect(() => {
         let setTimeoutId
-        if (timer && counter !== 0){
-           setTimeoutId =  progress(0, defaultPeriod);
+        if ( counter !== 0){
+          progress(0, defaultPeriod);
         }
 
         return () => clearTimeout(setTimeoutId)
-    }, [counter, timer])
+    }, [counter])
     const progress = (timeLeft, timeTotal) => {
-        let setTimeoutId;
+
         if (timeLeft <= timeTotal) {
-            setTimeoutId = setTimeout(() => {
+            setTimeout(() => {
                 setHeight(timeLeft * 100 / timeTotal)
                 progress(timeLeft + defaultPeriod / 10, timeTotal)
             }, 1000)
@@ -43,7 +43,7 @@ export const TokenListScreen = ({ navigation }) => {
             setCounter((counter) => counter + 1);
             setTimeOver(true)
         }
-        return setTimeoutId
+
     }
 
     useEffect(() => {
@@ -73,18 +73,18 @@ export const TokenListScreen = ({ navigation }) => {
 
     const handlePinCode = (item, text) => {
         generateOtp(item, text);
-        setTimer(true)
-        setEndTimer((endTimer) => endTimer + 1)
+        //setTimer(true)
+       /// setEndTimer((endTimer) => endTimer + 1)
     }
 
     const handleReset = (item) => {
         resetMoptToken(item);
         if (endTimer === 1) {
-            setCounter(1)
-            setEndTimer(0)
-            setTimer(false)
+            ///setCounter(1)
+            //setEndTimer(0)
+            //setTimer(false)
         }else  {
-            setEndTimer((endTimer) => endTimer - 1)
+            //setEndTimer((endTimer) => endTimer - 1)
         }
     }
 
