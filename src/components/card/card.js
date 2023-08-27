@@ -6,20 +6,22 @@ import Button from "../button";
 import React ,{useEffect, useState}from "react";
 
 
-const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete,height, nextOtp, reset, handleReset, handleGenerateNextOtp}) => {
+const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete,height, timeOver, handleReset, handleGenerateNextOtp}) => {
     const [value, setValue] = useState("");
 
     useEffect(() => {
-        console.log(nextOtp)
-        if (nextOtp) {
+
+        if (item.pin !== "" && timeOver) {
             handleGenerateNextOtp(item)
         }
 
-        if (reset) {
-            handleReset(item);
+        if(item.resetOtpTime === 4 ) {
+            handleReset(item)
         }
 
-    }, [nextOtp, reset])
+    }, [timeOver, item.resetOtpTime, item.pin])
+
+
     const onChangeText = (text) => {
 
         setValue(text);

@@ -65,16 +65,6 @@ export const MoptTokenContextProvider = ({ children }) => {
         setMoptToken(localMoptTokens)
     };
 
-    const generateNextOtp = (moptToken) => {
-        let localMoptTokens = [...moptTokens];
-        localMoptTokens.forEach((item, index) => {
-            if (item.secret === moptToken.secret) {
-                item.generateNextOtp();
-            }
-        })
-
-        setMoptToken(localMoptTokens)
-    };
 
     const setIsLongPressed = (moptToken) => {
         let localMoptTokens = [...moptTokens];
@@ -107,7 +97,6 @@ export const MoptTokenContextProvider = ({ children }) => {
                 updateWaitingForOtp,
                 resetMoptToken,
                 generateOtp,
-                generateNextOtp,
                 setIsLongPressed,
                 error,
                 setError

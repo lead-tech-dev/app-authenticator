@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 import utf8  from 'utf8';
 export class MoptToken {
 
-    resetOtpTime = 3;
+    resetOtpTime = 0;
     defaultPeriod = 10;
     defaultDigits = 6;
     tokenType = "";
@@ -39,7 +39,7 @@ export class MoptToken {
         for (let i = 0; i < 6; i++ ) {
             OTP += digits[Math.floor(Math.random() * 10)];
         }*/
-
+        this.resetOtpTime = this.resetOtpTime + 1;
         this.pin = pin;
         this.waitingForOtp = true;
         this.waitingForPin = false;
@@ -70,12 +70,16 @@ export class MoptToken {
         this.pin = "";
     }
 
+    setResetOtpTime () {
+    }
+
     reset() {
         this.isLongPressed = false;
         this.waitingForOtp = false;
         this.waitingForPin = false;
         this.currentOTP = "";
         this.pin = "";
+        this.resetOtpTime = 0;
     }
 
 }
