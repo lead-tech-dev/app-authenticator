@@ -54,6 +54,16 @@ export const MoptTokenContextProvider = ({ children }) => {
         setMoptToken(localMoptTokens)
     };
 
+    const addPin = (moptToken, pin) => {
+        let localMoptTokens = [...moptTokens];
+        localMoptTokens.forEach((item, index) => {
+            if (item.secret === moptToken.secret) {
+                item.setPin(pin);
+            }
+        })
+
+        setMoptToken(localMoptTokens)
+    };
     const generateOtp = (moptToken, pin) => {
         let localMoptTokens = [...moptTokens];
         localMoptTokens.forEach((item, index) => {
@@ -89,6 +99,7 @@ export const MoptTokenContextProvider = ({ children }) => {
     return (
         <MoptTokenContext.Provider
             value={{
+                addPin,
                 setMoptToken,
                 moptTokens,
                 addToMoptTokens: add,

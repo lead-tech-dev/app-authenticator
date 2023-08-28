@@ -12,39 +12,9 @@ import {MoptToken} from "../services/moptToken";
 
 export const TokenListScreen = ({ navigation }) => {
     const {
-        setMoptToken, moptTokens, resetMoptToken, setIsLongPressed, updateWaitingForPin, updateWaitingForOtp, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
+        addPin, setMoptToken, moptTokens, resetMoptToken, setIsLongPressed, updateWaitingForPin, updateWaitingForOtp, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
 
-    const [height, setHeight] = useState(0);
-    const [timer, setTimer] = useState(false);
-    const [timeOver, setTimeOver] = useState(false);
-    const [counter, setCounter] = useState(1);
-    const [endTimer, setEndTimer] = useState(0);
-    const defaultPeriod = 10;
 
-    useEffect(() => {
-        let setTimeoutId
-        if ( counter !== 0){
-          progress(0, defaultPeriod);
-        }
-
-        return () => clearTimeout(setTimeoutId)
-    }, [counter])
-    const progress = (timeLeft, timeTotal) => {
-
-        if (timeLeft <= timeTotal) {
-            setTimeout(() => {
-                setHeight(timeLeft * 100 / timeTotal)
-                progress(timeLeft + defaultPeriod / 10, timeTotal)
-            }, 1000)
-        }else{
-            setHeight(0)
-        }
-        if(timeLeft === timeTotal) {
-            setCounter((counter) => counter + 1);
-            setTimeOver(true)
-        }
-
-    }
 
     useEffect(() => {
         let localMoptTokens = [];
@@ -73,24 +43,15 @@ export const TokenListScreen = ({ navigation }) => {
 
     const handlePinCode = (item, text) => {
         generateOtp(item, text);
-        //setTimer(true)
-       /// setEndTimer((endTimer) => endTimer + 1)
     }
 
     const handleReset = (item) => {
         resetMoptToken(item);
-        if (endTimer === 1) {
-            ///setCounter(1)
-            //setEndTimer(0)
-            //setTimer(false)
-        }else  {
-            //setEndTimer((endTimer) => endTimer - 1)
-        }
+
     }
 
     const handleGenerateNextOtp = (item) => {
         generateOtp(item)
-        setTimeOver(false)
     }
 
   return (
@@ -118,8 +79,6 @@ export const TokenListScreen = ({ navigation }) => {
                               handleDelete={(item) => removeFromMoptTokens(item)}
                               handleReset={(item) => handleReset(item)}
                               handleGenerateNextOtp={(item) => handleGenerateNextOtp(item)}
-                              timeOver={timeOver}
-                              height={height}
                               length={moptTokens.length}
                           />
                       );

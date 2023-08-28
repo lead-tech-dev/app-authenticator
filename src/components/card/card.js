@@ -1,30 +1,30 @@
-import {View, Text, TouchableOpacity, TextInput} from "react-native";
+import {View} from "react-native";
 import {Action, Auth, CardContainer, Header, Icon, Inner, Input, Issuer, Key, Label, PinContainer} from "./card.styles";
 import Divider from "../divider/divider";
 import {ProgressBar} from "./card.styles";
 import Button from "../button";  
 import React ,{useEffect, useState}from "react";
+import {useTimer} from "../../services/timer";
 
 
-const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete,height, timeOver, handleReset, handleGenerateNextOtp, length}) => {
+
+const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDelete, handleReset, handleGenerateNextOtp, length}) => {
+
     const [value, setValue] = useState("");
+    const {time, startTimer, stopTimer} = useTimer(item, handleGenerateNextOtp)
 
     useEffect(() => {
-        let timeoutId;
-        if (item.pin !== "" && timeOver) {
-            timeoutId = setTimeout(() => {
-               handleGenerateNextOtp(item)
-           }, 1500)
+
+        if (item.waitingForOtp) {
+           startTimer()
         }
 
-        if(item.resetOtpTime === 4 ) {
-            handleReset(item)
-        }
+        if (item.resetOtpTime > 3) {
+           handleReset(item)
+           stopTimer()
+         }
 
-        return () => clearTimeout(timeoutId)
-
-    }, [timeOver, item.resetOtpTime, item.pin])
-
+    }, [item.resetOtpTime, item.waitingForOtp])
 
     const onChangeText = (text) => {
 
@@ -36,6 +36,7 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
         }
     }
 
+
     return (
         <CardContainer onPress={onPress} onLongPress={onLongPress}>
             <Header isPressed={item.isLongPressed}>
@@ -45,7 +46,7 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
                   {item.waitingForOtp && item.currentOTP !== "" && (
                       <ProgressBar>
                           <View style={{
-                              height: `${height}%`,
+                              height: `${time * 10}%`,
                               width: "5px",
                               backgroundColor: "red",
                               borderTopLeftRadius: 2,

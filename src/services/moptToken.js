@@ -4,7 +4,7 @@ import utf8  from 'utf8';
 export class MoptToken {
 
     resetOtpTime = 0;
-    defaultPeriod = 10;
+    remainingOtpTime = 0;
     defaultDigits = 6;
     tokenType = "";
     issuer = '';
@@ -16,7 +16,7 @@ export class MoptToken {
     waitingForOtp= false;
 
     isLongPressed = false;
-
+    period = 10;
     constructor(parsedUri) {
 
         this.tokenType = parsedUri.host;
@@ -26,6 +26,10 @@ export class MoptToken {
 
     }
 
+    addPin (pin) {
+        this.pin = pin;
+        this.setWaitingForOtp();
+    }
     generateOTP(pin) {
         const milliseconds = Date.now();
         const actualTime = Math.floor((milliseconds/1000)/10).toString();
@@ -34,11 +38,6 @@ export class MoptToken {
             .toString()
             .substring(0, this.defaultDigits);
 
-       /* let digits = '0123456789';
-        let OTP = '';
-        for (let i = 0; i < 6; i++ ) {
-            OTP += digits[Math.floor(Math.random() * 10)];
-        }*/
         this.resetOtpTime = this.resetOtpTime + 1;
         this.pin = pin;
         this.waitingForOtp = true;
@@ -46,6 +45,15 @@ export class MoptToken {
         this.currentOTP = hash
 
         return hash;
+    }
+
+    getCurrentCountdownInSeconds () {
+        const milliseconds = Date.now();
+        const seconds = Math.floor((milliseconds/1000))
+
+        let time = this.period - seconds % this.period;
+        this.remainingOtpTime = time;
+        return time;
     }
 
     generateNextOtp() {
@@ -68,9 +76,7 @@ export class MoptToken {
         this.isLongPressed = true;
         this.waitingForPin = false;
         this.pin = "";
-    }
-
-    setResetOtpTime () {
+        this.currentCountdownInSeconds = 0;
     }
 
     reset() {
