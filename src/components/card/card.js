@@ -19,12 +19,12 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
            startTimer()
         }
 
-        if (item.resetOtpTime > 3) {
+        if (item.resetOtpTime > 2 && time === 1) {
            handleReset(item)
            stopTimer()
          }
 
-    }, [item.resetOtpTime, item.waitingForOtp])
+    }, [item.resetOtpTime, item.waitingForOtp, time])
 
     const onChangeText = (text) => {
 
@@ -36,7 +36,7 @@ const Card = ({item, onPress, onLongPress, handlePinCode, handleCancel, handleDe
         }
     }
 
-
+//console.log(time)
     return (
         <CardContainer onPress={onPress} onLongPress={onLongPress}>
             <Header isPressed={item.isLongPressed}>

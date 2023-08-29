@@ -42,7 +42,7 @@ export const TokenListScreen = ({ navigation }) => {
     }, [error])
 
     const handlePinCode = (item, text) => {
-        generateOtp(item, text);
+        addPin(item, text);
     }
 
     const handleReset = (item) => {

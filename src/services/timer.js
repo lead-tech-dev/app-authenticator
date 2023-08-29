@@ -4,11 +4,15 @@ export const useTimer = (item, handleGenerateNextOtp) => {
     const [intervalID, setIntervalID] = useState(null)
     const isTimerRunning = intervalID != null;
 
+
     const startTimer = () => {
         if (!isTimerRunning) {
+            handleGenerateNextOtp(item)
+            setTime(item.getCurrentCountdownInSeconds())
             setIntervalID(setInterval(() => {
                 let current = item.getCurrentCountdownInSeconds()
-                if (current < 2) {
+                if (current === 10) {
+                    setTime(current)
                    handleGenerateNextOtp(item)
                 }else {
                     setTime(current)

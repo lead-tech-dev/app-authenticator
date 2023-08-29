@@ -58,7 +58,7 @@ export const MoptTokenContextProvider = ({ children }) => {
         let localMoptTokens = [...moptTokens];
         localMoptTokens.forEach((item, index) => {
             if (item.secret === moptToken.secret) {
-                item.setPin(pin);
+                item.addPin(pin);
             }
         })
 
