@@ -30,12 +30,12 @@ export const MoptTokenContextProvider = ({ children }) => {
         setMoptToken(localMoptTokens)
     };
 
-    const updateWaitingForOtp = (moptToken) => {
+    const cancel = (moptToken) => {
         let localMoptTokens = [...moptTokens];
 
         localMoptTokens.forEach((item, index) => {
             if (item.secret === moptToken.secret) {
-                item.setWaitingForOtp();
+                item.setCancel();
             }
         })
 
@@ -102,10 +102,10 @@ export const MoptTokenContextProvider = ({ children }) => {
                 addPin,
                 setMoptToken,
                 moptTokens,
+                cancel,
                 addToMoptTokens: add,
                 removeFromMoptTokens: remove,
                 updateWaitingForPin,
-                updateWaitingForOtp,
                 resetMoptToken,
                 generateOtp,
                 setIsLongPressed,

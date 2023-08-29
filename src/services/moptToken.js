@@ -64,6 +64,10 @@ export class MoptToken {
         this.pin = "";
     }
 
+    setCancel () {
+        this.isLongPressed = false;
+    }
+
     reset() {
         this.isLongPressed = false;
         this.waitingForOtp = false;

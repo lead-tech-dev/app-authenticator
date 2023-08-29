@@ -12,7 +12,7 @@ import {MoptToken} from "../services/moptToken";
 
 export const TokenListScreen = ({ navigation }) => {
     const {
-        addPin, setMoptToken, moptTokens, resetMoptToken, setIsLongPressed, updateWaitingForPin, updateWaitingForOtp, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
+        cancel, addPin, setMoptToken, moptTokens, resetMoptToken, setIsLongPressed, updateWaitingForPin, removeFromMoptTokens, generateOtp, error, setError } = useContext(MoptTokenContext);
 
 
 
@@ -75,7 +75,7 @@ export const TokenListScreen = ({ navigation }) => {
                               onPress={() => updateWaitingForPin(item)}
                               onLongPress={() => setIsLongPressed(item)}
                               handlePinCode={(value) => handlePinCode(item, value)}
-                              handleCancel={(item) => updateWaitingForOtp(item)}
+                              handleCancel={(item) => cancel(item)}
                               handleDelete={(item) => removeFromMoptTokens(item)}
                               handleReset={(item) => handleReset(item)}
                               handleGenerateNextOtp={(item) => handleGenerateNextOtp(item)}

@@ -12,7 +12,7 @@ export const useTimer = (item, handleGenerateNextOtp) => {
             setIntervalID(setInterval(() => {
                 let current = item.getCurrentCountdownInSeconds()
                 if (current === 10) {
-                    setTime(current)
+                   setTime(current)
                    handleGenerateNextOtp(item)
                 }else {
                     setTime(current)
